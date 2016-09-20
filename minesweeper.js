@@ -2,72 +2,7 @@ document.addEventListener('DOMContentLoaded', startGame)
 
 // Define your `board` object here!
 var board = {
-    cells: [
-        {
-            row: 0,
-            col: 0,
-            isMine: false,
-            isMarked: false,
-            surroundingMines: 0,
-            hidden: true
-        }, {
-            row: 0,
-            col: 1,
-            isMine: false,
-            isMarked: false,
-            surroundingMines: 0,
-            hidden: true
-        }, {
-            row: 0,
-            col: 2,
-            isMine: false,
-            isMarked: false,
-            surroundingMines: 0,
-            hidden: true
-        }, {
-            row: 1,
-            col: 0,
-            isMine: false,
-            isMarked: false,
-            surroundingMines: 0,
-            hidden: true
-        }, {
-            row: 1,
-            col: 1,
-            isMine: false,
-            isMarked: false,
-            surroundingMines: 0,
-            hidden: true
-        }, {
-            row: 1,
-            col: 2,
-            isMine: true,
-            isMarked: false,
-            surroundingMines: 0,
-            hidden: true
-        }, {
-            row: 2,
-            col: 0,
-            isMine: false,
-            isMarked: false,
-            surroundingMines: 0,
-            hidden: true
-        }, {
-            row: 2,
-            col: 1,
-            isMine: false,
-            isMarked: false,
-            surroundingMines: 0,
-            hidden: true
-        }, {
-            row: 2,
-            col: 2,
-            isMine: true,
-            isMarked: false,
-            surroundingMines: 0,
-            hidden: true
-        }
-    ]
+    cells: []
 }
 
 function startGame () {
@@ -75,9 +10,30 @@ function startGame () {
   for (var i = 0; i < board.cells.length; i++) {
     board.cells[i].surroundingMines = countSurroundingMines(board.cells[i]);
   }
-  lib.initBoard()
   document.addEventListener('click', checkForWin)
   document.addEventListener('contextmenu', checkForWin)
+}
+
+function generateBoard () {
+    var boardSize = Number(document.userBoard.boardsize.value);
+    var board = { cells: [] }
+    for (var a = 0; a < boardSize; a++) {
+        for (var b = 0; b < boardSize; b++) {
+            board.cells.push({
+                col: a,
+                row: b,
+                isMine: Boolean(Math.floor(Math.random() * 2)),
+                isMarked: false,
+                hidden: true
+            })
+        }
+    }
+    lib.initBoard()
+    for (var i = 0; i < board.cells.length; i++) {
+        board.cells[i].surroundingMines = countSurroundingMines(board.cells[i]);
+    }
+    document.addEventListener('click', checkForWin)
+    document.addEventListener('contextmenu', checkForWin)
 }
 
 // Define this function to look for a win condition:
@@ -110,18 +66,3 @@ function countSurroundingMines (cell) {
     return count;
 }
 
-function generateBoard () {
-    var boardSize = Number(document.userBoard.boardsize.value);
-    for (var a = 0; a < boardSize; a++) {
-        for (var b = 0; b < boardSize; b++) {
-            board.cells.push({
-                col: a,
-                row: b,
-                isMine: Boolean(Math.floor(Math.random() * 2)),
-                isMarked: false,
-                hidden: true
-            })
-        }
-    }
-
-}
