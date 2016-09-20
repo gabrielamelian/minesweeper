@@ -96,23 +96,12 @@ function checkForWin () {
     if (winner === true){
         lib.displayMessage('You win!');
     }
-
-  // You can use this function call to declare a winner (once you've
-  // detected that they've won, that is!)
-  //   lib.displayMessage('You win!')
 }
 
-// Define this function to count the number of mines around the cell
-// (there could be as many as 8). You don't have to get the surrounding
-// cells yourself! Just use `lib.getSurroundingCells`:
-//
-//   var surrounding = lib.getSurroundingCells(cell.row, cell.col)
-//
-// It will return cell objects in an array. You should loop through
-// them, counting the number of times `cell.isMine` is true.
+//Counts the cells that contain mines around the current one
 function countSurroundingMines (cell) {
     var surrounding = lib.getSurroundingCells(cell.row, cell.col);
-        var count = 0;
+    var count = 0;
     for (var i = 0; i < surrounding.length; i++) {
         if (surrounding[i].isMine === true) {
             count += 1;
@@ -121,3 +110,18 @@ function countSurroundingMines (cell) {
     return count;
 }
 
+function generateBoard () {
+    var boardSize = Number(document.userBoard.boardsize.value);
+    for (var a = 0; a < boardSize; a++) {
+        for (var b = 0; b < boardSize; b++) {
+            board.cells.push({
+                col: a,
+                row: b,
+                isMine: Boolean(Math.floor(Math.random() * 2)),
+                isMarked: false,
+                hidden: true
+            })
+        }
+    }
+
+}
