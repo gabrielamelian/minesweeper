@@ -5,37 +5,32 @@ var board = {
     cells: []
 }
 
-// function startGame () {
-//    Don't remove this function call: it makes the game work!
-//    for (var i = 0; i < board.cells.length; i++) {
-//      board.cells[i].surroundingMines = countSurroundingMines(board.cells[i]);
-//    }
-//    document.addEventListener('click', checkForWin)
-//    document.addEventListener('contextmenu', checkForWin)
-
-// }
 
 function startGame () {
     board.cells.length = 0
-    var boardSize = Number(document.userBoard.boardsize.value) || 3;
-    for (var a = 0; a < boardSize; a++) {
-        for (var b = 0; b < boardSize; b++) {
-            board.cells.push({
-                col: a,
-                row: b,
-                isMine: Boolean(Math.floor(Math.random() * 2)),
-                isMarked: false,
-                hidden: true
-            })
-        }
-    }
+    generateBoard();
     for (var i = 0; i < board.cells.length; i++) {
         board.cells[i].surroundingMines = countSurroundingMines(board.cells[i]);
     }
     lib.initBoard()
     document.addEventListener('click', checkForWin)
     document.addEventListener('contextmenu', checkForWin)
-    console.log(board)
+}
+
+// Populates the Board object with cells
+function generateBoard () {
+    var boardSize = Number(document.userBoard.boardsize.value) || 4;
+    for (var a = 0; a < boardSize; a++) {
+        for (var b = 0; b < boardSize; b++) {
+            board.cells.push({
+                col: a,
+                row: b,
+                isMine: Boolean(Math.floor(Math.random() * 1.5)),
+                isMarked: false,
+                hidden: true
+            })
+        }
+    }
 }
 
 // Define this function to look for a win condition:
@@ -49,6 +44,7 @@ function checkForWin () {
             winner = true;
         } else if (board.cells[i].hidden) {
             winner = false;
+            break;
         }
     }
     if (winner === true){
