@@ -57,6 +57,9 @@ function checkForWin () {
     if (winner === true){
         lib.displayMessage('You win!');
         winSound.play();
+        document.removeEventListener('click', checkForWin);
+        document.removeEventListener('contextmenu', checkForWin);
+        lib.removeListeners();
     }
 }
 
