@@ -25,7 +25,7 @@ function generateBoard () {
             board.cells.push({
                 col: a,
                 row: b,
-                isMine: Boolean(Math.floor(Math.random() * 1.5)),
+                isMine: Boolean(Math.floor(Math.random() * 1.2)),
                 isMarked: false,
                 hidden: true
             })
@@ -42,9 +42,8 @@ function checkForWin () {
     for (var i = 0; i < board.cells.length; i++) {
         if (board.cells[i].isMine && board.cells[i].isMarked) {
             winner = true;
-        } else if (board.cells[i].hidden) {
+        } else if (!board.cells[i].isMine && board.cells[i].hidden) {
             winner = false;
-            break;
         }
     }
     if (winner === true){
